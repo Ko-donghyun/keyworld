@@ -1,72 +1,86 @@
-<html lang="en"><head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="../../favicon.ico">
+<html lang="en">
 
-  <title>Cover Template for Bootstrap</title>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
 
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>KeyWorld</title>
 
-  <!-- Custom styles for this template -->
-  <link href="/stylesheets/cover.css" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="/stylesheets/cover.css" rel="stylesheet">
+
+    <!-- Load vis.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.20.1/vis.min.js"></script>
 </head>
 
 <body>
 
-<div class="site-wrapper">
+    <div class="site-wrapper">
 
-  <div class="site-wrapper-inner">
+        <div class="site-wrapper-inner">
 
-    <div class="cover-container">
+            <div class="cover-container">
 
-      <div class="masthead clearfix">
-        <div class="inner row">
-          <div class="col-md-2">
-            <h3 class="masthead-brand">Keyworld!!</h3>
-          </div>
-          <div class="col-md-10 masthead-input-group">
-            <div class="input-group">
-              <input type="text" id="searchInput" class="form-control" placeholder="Search for...">
-              <span class="input-group-btn">
+                <div class="masthead clearfix">
+                    <div class="inner row">
+                        <div class="col-md-2">
+                            <h3 class="masthead-brand">Keyworld!!</h3>
+                        </div>
+                        <div class="col-md-10 masthead-input-group">
+                            <div class="input-group">
+                                <input type="text" id="searchInput" class="form-control" placeholder="Search for...">
+                                <span class="input-group-btn">
                     <button class="btn btn-default" id="searchBtn" type="button">Search</button>
                   </span>
+                            </div>
+                        </div>
+                        <!-- /input-group -->
+                    </div>
+                </div>
+
+                <div class="inner cover" id="mynetwork">
+                </div>
+
+                <div class="mastfoot">
+                    <div class="inner">
+                        <p>Hello this is just mookup</p>
+                    </div>
+                </div>
+
             </div>
-          </div><!-- /input-group -->
-        </div>
-      </div>
 
-      <div class="inner cover">
-        <p>inner something</p>
-      </div>
-
-      <div class="mastfoot">
-        <div class="inner">
-          <p>Hello this is just mookup</p>
         </div>
-      </div>
 
     </div>
 
-  </div>
-
-</div>
-
-<!-- Bootstrap core JavaScript
+    <!-- Bootstrap core JavaScript
 ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script
-        src="http://code.jquery.com/jquery-3.2.1.min.js"
-        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-        crossorigin="anonymous"></script>
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-<script type="text/javascript" src="/javascript/mookup.js"></script>
+    <script type="text/javascript" src="/javascript/mookup.js"></script>
+    <script type="text/javascript" src="/javascript/graph.js"></script>
 
-</body></html>
+
+
+    <script>
+        // Run events that need to happen on initialization.
+        window.onload = function() {
+            bind();
+            //loadSaved();
+        };
+    </script>
+</body>
+
+</html>
