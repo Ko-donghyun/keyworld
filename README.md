@@ -4,7 +4,7 @@ Knowledge acquisition web application by keyword visualization.
 
 ### Prerequisites
 
-Node.js (v6.10.1)
+Node.js (>= v6.0.0)
 
 ### Installing
 
