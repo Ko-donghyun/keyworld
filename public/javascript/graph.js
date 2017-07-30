@@ -15,6 +15,9 @@ var options = {
         },
         font: { size: 17, face: 'Helvetica Neue, Helvetica, Arial' }
     },
+    edges: {
+        width: 2
+    },
     interaction: {
         hover: true,
         hoverConnectedEdges: false,
@@ -23,10 +26,15 @@ var options = {
 };
 makeNetwork();
 
+function reset() {
+    preKeyword = undefined;
+    keyword = undefined;
+    searchKeywords = [];
+}
+
 $(document).ready(function() {
     $("#searchBtn").click(function() {
-        preKeyword = undefined;
-        keyword = undefined;
+        reset();
         console.log("search button cliked");
         var searchingWord = $("#searchInput").val();
         search(searchingWord);
@@ -39,14 +47,15 @@ function search(keyword) {
     if (keyword === searchKeywords[0]) {
         searchKeywords[0] = undefined;
         searchKeywords[1] = keyword;
+        $("#searchInput").val(keyword);
     } else if (preKeyword !== undefined) {
-        //$("#searchInput").val(preKeyword + ", " + keyword);
         searchKeywords[0] = preKeyword;
         searchKeywords[1] = keyword;
+        $("#searchInput").val(preKeyword + ", " + keyword);
     } else {
         searchKeywords[1] = keyword;
+        $("#searchInput").val(keyword);
     }
-
     console.log(searchKeywords);
     var jsonData;
     if (searchKeywords[0] != undefined) {
