@@ -15,6 +15,10 @@ exports.search = function(keyword) {
     return Keyword.findOrCreate({
       where: {label: keyword}
     }).spread((keyword, created) => {
+      if (created) {
+        return resolve([]);
+      }
+
       return sequelize.query(`SELECT keyword.label FROM \`lines\` AS line JOIN \`keywords\` AS keyword ON line.middle = keyword.id WHERE line.top = :keywordId AND line.bottom IS null;`,
         { replacements: { keywordId: keyword.id }, type: sequelize.QueryTypes.SELECT }
       ).then(result => {
