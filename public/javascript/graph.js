@@ -15,9 +15,6 @@ var options = {
         },
         font: { size: 17, face: 'Helvetica Neue, Helvetica, Arial' }
     },
-    edges: {
-        width: 2
-    },
     interaction: {
         hover: true,
         hoverConnectedEdges: false,
@@ -91,7 +88,6 @@ function setData(upKeyword, jsonData) {
             nodeData.push({ id: (i + 1), label: jsonData.result[i].label });
             edgeData.push({ from: 0, to: (i + 1) });
         }
-
     }
     if (preKeyword !== upKeyword && preKeyword !== undefined) {
         nodeData.push({ id: jsonData.result.length + 1, label: preKeyword, color: '#9f9faa' });
@@ -128,3 +124,33 @@ function expandEvent(params) { // Expand a node (with event handler)
         }
     }
 }
+
+
+$("#addKeywordBtn").click(function() {
+    var addKeywordVal = $("#addKeywordVal").val();
+    var url = "http://localhost:3000/keyword";
+    var val = $("#addKeywordVal").val();
+    var obj = { keyword: preKeyword, newKeyword: val };
+
+    console.log(searchKeywords[0]);
+
+    if (searchKeywords[0] !== undefined) {
+        url += '/extension';
+        obj = { previousKeyword: searchKeywords[0], keyword: preKeyword, newKeyword: val };
+    }
+    $.post(url, obj, function(jqXHR) {
+            //success
+        }, 'json' /* xml, text, script, html */ )
+        .done(function(jqXHR) {
+            var node = { id: nodes.length + 1, label: val };
+            var edge = { from: 0, to: nodes.length + 1 };
+            nodes.add(node);
+            edges.add(edge);
+        })
+        .fail(function(jqXHR) {
+            alert("error");
+        })
+        .always(function(jqXHR) {
+            $('#myModal').modal('toggle');
+        });
+});
