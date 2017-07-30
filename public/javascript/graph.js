@@ -1,40 +1,8 @@
 // create an array with nodes
-
+var network;
 var nodes, edges;
 
-nodes = new vis.DataSet([
-    { id: 1, label: 'Apple' },
-    { id: 2, label: 'Public' },
-    { id: 3, label: 'hardware' },
-    { id: 4, label: 'software' },
-    { id: 5, label: 'California' },
-    { id: 6, label: 'Tim Cook' },
-    { id: 7, label: 'Steve Jobs' },
-    { id: 8, label: 'Steve Wozniak' },
-    { id: 9, label: 'iPhone' },
-    { id: 10, label: 'iCloud' }
-]);
 
-// create an array with edges
-edges = new vis.DataSet([
-    { from: 1, to: 2 },
-    { from: 1, to: 3 },
-    { from: 1, to: 4 },
-    { from: 1, to: 5 },
-    { from: 1, to: 6 },
-    { from: 1, to: 7 },
-    { from: 1, to: 8 },
-    { from: 1, to: 9 },
-    { from: 1, to: 10 }
-]);
-
-// create a network
-var container = document.getElementById('mynetwork');
-
-var data = {
-    nodes: nodes,
-    edges: edges
-};
 //Global options
 var options = {
     nodes: {
@@ -52,31 +20,66 @@ var options = {
         selectConnectedEdges: true
     },
 };
-var network = new vis.Network(container, data, options);
+makeNetwork();
+
+$(document).ready(function() {
+    $("#searchBtn").click(function() {
+        console.log("search button cliked");
+        var searchingWord = $("#searchInput").val();
+        console.log(searchingWord);
+        search(searchingWord);
+    });
+})
+
+function search(keyword) {
+    setData(keyword);
+    makeNetwork();
+}
+
+function setData(upKeyword) {
+    var jsonData = '{"success":"1","result":[{"label":"Machine Learning"}, {"label": "BigData"}, {"label": "Virtual Reality"}, {"label": "Augmented Reality"} ]}';
+
+    var parsedData = JSON.parse(jsonData);
+
+    var nodeData = [];
+    var edgeData = [];
+
+    nodeData.push({ id: 0, label: upKeyword }, );
+    for (var i = 0; i < parsedData.result.length; i++) {
+        nodeData.push({ id: (i + 1), label: parsedData.result[i].label });
+        edgeData.push({ from: 0, to: (i + 1) });
+    }
+
+    console.log(nodeData);
+    console.log(edgeData);
+
+
+    // create nodes
+    nodes = new vis.DataSet(nodeData);
+    // create an array with edges
+    edges = new vis.DataSet(edgeData);
+}
 
 function makeNetwork() {
+    // create a network
+    var container = document.getElementById('mynetwork');
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
     network = new vis.Network(container, data, options);
     bindNetwork();
 }
 
 function bindNetwork() {
-
+    network.on("click", expandEvent);
 }
 
-function bind() {
-    var findButton = document.getElementById('submit');
-    findButton.onclick = function() {
-        console.log("submit 클릭됨");
-        searchNetworkFromInput();
+function expandEvent(params) { // Expand a node (with event handler)
+    if (params.nodes.length) { //Did the click occur on a node?
+        var selectedKeyword = params.nodes[0]; //The id of the node clicked
+        var label = nodes.get(selectedKeyword).label
+        console.log(label);
+        search(label);
     }
-}
-
-function searchNetworkFromInput() {
-    var cf = document.getElementsByClassName("inputKeyword")[0];
-    var input = cf.value;
-    getData();
-}
-
-function getData() {
-    var data = JSON.parse(inputData.json);
 }
