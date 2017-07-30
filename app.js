@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var keywords = require('./routes/keyword');
+const keywords = require('./routes/keyword');
 
 // Load Database model
 require('./model/generator.js');
