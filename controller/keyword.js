@@ -29,6 +29,42 @@ exports.search = function(keyword) {
 };
 
 
+
+/**
+ * To save the Keyword when it has any other previous relations 
+ *
+ * @param {String} keyword
+ * @param {String} newKeyword
+ * @returns {Object}
+ */
+exports.addKeyword = function(keyword, newKeyword) {
+  let resultKeyword;
+  let resultNewKeyword;
+
+  return new Promise((resolve, reject) => {
+    return Keyword.findOne({
+      where: {label: keyword}
+    }).then((keyword) => {
+      resultKeyword = keyword;
+
+      if (!keyword) {
+        return reject(new helper.makePredictableError(200, 404, 'Can\'t not find that Keyword'))
+      }
+
+      return Keyword.findOrCreate({where: {label: newKeyword}}).spread((newKeyword, created) => {
+        resultNewKeyword = newKeyword;
+
+        return Line.bulkCreate([
+          { top: resultKeyword.id , middle: newKeyword.id },
+          { top: newKeyword.id , middle: resultKeyword.id },
+        ]).then((result) => {
+          resolve(result);
+        })
+      })
+    });
+  });
+};
+
 /**
  * To find the Keyword when it has previous relations 
  *
