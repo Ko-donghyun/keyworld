@@ -12,13 +12,9 @@ const helper = require('./helper.js');
  */
 exports.search = function(keyword) {
   return new Promise((resolve, reject) => {
-    return Keyword.findOne({
+    return Keyword.findOrCreate({
       where: {label: keyword}
-    }).then((keyword) => {
-      if (!keyword) {
-        return reject(new helper.makePredictableError(200, 404, 'Can\'t not find that Keyword'))
-      }
-
+    }).spread((keyword, created) => {
       return sequelize.query(`SELECT keyword.label FROM \`lines\` AS line JOIN \`keywords\` AS keyword ON line.middle = keyword.id WHERE line.top = :keywordId AND line.bottom IS null;`,
         { replacements: { keywordId: keyword.id }, type: sequelize.QueryTypes.SELECT }
       ).then(result => {
