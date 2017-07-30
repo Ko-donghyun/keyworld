@@ -74,4 +74,24 @@ router.post('/extension', function(req, res, next) {
   });
 });
 
+
+/** 
+ * To remove the Keyword
+ */
+router.post('/report', function(req, res, next) {
+  const ancestorKeyword = req.body.ancestorKeyword;
+  const parentKeyword = req.body.parentKeyword;
+  const keyword = req.body.keyword;
+  const email = req.body.email;
+
+  return keywordController.reportKeyword(ancestorKeyword, parentKeyword, keyword, email).then((result) => {
+    return res.json({
+      success: 1,
+      result,
+    })
+  }).catch((err) => {
+    return next(err);
+  });
+});
+
 module.exports = router;
