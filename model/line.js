@@ -14,6 +14,11 @@ const Line = sequelize.define('line', {
   bottom: {
     type: Sequelize.INTEGER,
     allowNull: true,
+  },
+  preference: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    allowNull: true,
   }
 }, {
   timestamps: true,

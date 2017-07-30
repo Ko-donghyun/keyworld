@@ -19,7 +19,7 @@ exports.search = function(keyword) {
         return resolve([]);
       }
 
-      return sequelize.query(`SELECT keyword.label FROM \`lines\` AS line JOIN \`keywords\` AS keyword ON line.middle = keyword.id WHERE line.top = :keywordId AND line.bottom IS null;`,
+      return sequelize.query(`SELECT line.id, keyword.label, line.preference FROM \`lines\` AS line JOIN \`keywords\` AS keyword ON line.middle = keyword.id WHERE line.top = :keywordId AND line.bottom IS null;`,
         { replacements: { keywordId: keyword.id }, type: sequelize.QueryTypes.SELECT }
       ).then(result => {
         resolve(result);
@@ -97,10 +97,14 @@ exports.extensionSearch = function(keyword, previousKeyword) {
           return reject(new helper.makePredictableError(200, 404, 'Can\'t not find that Keyword'))
         }
 
-        return sequelize.query(`SELECT line.id, keyword.label FROM \`lines\` AS line JOIN \`keywords\` AS keyword ON line.bottom = keyword.id WHERE line.top = :previousKeywordId AND line.middle = :keywordId AND line.bottom IS NOT null;`,
+        return sequelize.query(`SELECT line.id, keyword.label, line.preference FROM \`lines\` AS line JOIN \`keywords\` AS keyword ON line.bottom = keyword.id WHERE line.top = :previousKeywordId AND line.middle = :keywordId AND line.bottom IS NOT null;`,
           { replacements: { keywordId: resultKeyword.id, previousKeywordId: resultPreviousKeyword.id }, type: sequelize.QueryTypes.SELECT }
-        ).then(result => {
-          resolve(result);
+        ).then((result) => {
+
+          let searchResult = result;
+          return Line.increment('preference', { where: { middle: resultKeyword.id, top: resultPreviousKeyword.id, bottom: {$eq: null}}}).then(() => {
+            resolve(searchResult);
+          })
         })
       })
     });
