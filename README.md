@@ -35,6 +35,7 @@ npm start
 ## Authors
 
 * **Donghyun Ko** - *Back-end Developer* - [Ko-donghyun](https://github.com/Ko-donghyun)
+* **Daniel Kim** - *front-end Developer* - [Daniel,Kim](https://github.com/skaghzz)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
