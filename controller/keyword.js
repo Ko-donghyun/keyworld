@@ -1,4 +1,8 @@
+const SparkPost = require('sparkpost');
 var sequelize = require('./../sequelize-config.js');
+
+const credentials = require('./../credentials.js');
+const sparky = new SparkPost(credentials.sparkpost.api);
 
 const Keyword = require('./../model/keyword.js');
 const Line = require('./../model/line.js');
@@ -163,5 +167,41 @@ exports.addKeywordWithRelation = function(keyword, previousKeyword, newKeyword) 
         })
       });
     });
+  });
+};
+
+
+/**
+ * To remove the keyword
+ *
+ * @param {String} ancestorKeyword
+ * @param {String} parentKeyword
+ * @param {String} keyword
+ * @param {String} email
+ * @returns {Object}
+ */
+exports.reportKeyword = function(ancestorKeyword, parentKeyword, keyword, email) {
+  return new Promise((resolve, reject) => {
+
+    sparky.transmissions.send({
+      content: {
+        from: 'report@email.keyworld.space',
+        subject: `Keyword Reported about '${keyword}'`,
+        html:`<html><body><p>ancestorKeyword: ${ancestorKeyword}, \n parentKeyword: ${parentKeyword}, \n keyword: ${keyword}, \n email: ${email}</p></body></html>`
+      },
+      recipients: [
+        {address: 'angelhack.team.keyworld@gmail.com'}
+      ]
+    })
+      .then(data => {
+        console.log('Woohoo! You just sent your first mailing!');
+        console.log(data);
+        resolve(data);
+      })
+      .catch(err => {
+        console.log('Whoops! Something went wrong');
+        console.log(err);
+        return reject(new helper.makePredictableError(200, 501, 'Something went wrong'))
+      });
   });
 };
