@@ -144,7 +144,17 @@ exports.addKeywordWithRelation = function(keyword, previousKeyword, newKeyword) 
           resultNewKeyword = newKeyword;
 
           return Line.create({ top: resultPreviousKeyword.id, middle: resultKeyword.id, bottom: newKeyword.id }).then((result) => {
-            resolve(result);
+            return Line.findOrCreate({where: {top: resultKeyword.id , middle: newKeyword.id}}).spread((newLine, created) => {
+              if (!created) {
+                return reject(new helper.makePredictableError(200, 401, 'Already Inserted that Keyword'))
+              }
+
+              return Line.create({ top: newKeyword.id , middle: resultKeyword.id }).then((result) => {
+                resolve('Successfully inserted!');
+              })
+            });
+          }).catch((err) => {
+            return reject(new helper.makePredictableError(200, 501, 'Already Inserted that Keyword'))
           })
         })
       });
