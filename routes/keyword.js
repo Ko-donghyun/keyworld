@@ -55,4 +55,23 @@ router.get('/extension', function(req, res, next) {
   });
  });
 
+
+/** 
+ * To save the Keyword when it has previous relations 
+ */
+router.post('/extension', function(req, res, next) {
+  const previousKeyword = req.body.previousKeyword;
+  const keyword = req.body.keyword;
+  const newKeyword = req.body.newKeyword;
+
+  return keywordController.addKeywordWithRelation(keyword, previousKeyword, newKeyword).then((result) => {
+    return res.json({
+      success: 1,
+      result,
+    })
+  }).catch((err) => {
+    return next(err);
+  });
+});
+
 module.exports = router;
