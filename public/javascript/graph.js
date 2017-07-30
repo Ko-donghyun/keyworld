@@ -157,7 +157,10 @@ function doubleClickEvent(params) {
       selectedKeyword = tempNodes[i].label;
     }
   }
-  $("#askWord").html("Are you sure you want to delete '" + selectedKeyword + "'?");
+  if (selectedKeyword === searchKeywords[1]) {
+    return;
+  }
+  $("#askWord").html(selectedKeyword);
   $('#delModal').modal('show');
 }
 
@@ -190,5 +193,21 @@ $("#addKeywordBtn").click(function () {
 });
 
 $("#delKeywordBtn").click(function() {
-  console.log("delete this Node!");
+  var url = "http://localhost:3000/keyword/report";
+  var val = $("#askWord").text();
+  var email = $("#forDelEmail").val();
+  var obj = {ancestorKeyword: searchKeywords[0], parentKeyword: preKeyword, keyword: val, email: email};
+
+  $.post(url, obj, function (jqXHR) {
+    //success
+  }, 'json' /* xml, text, script, html */)
+    .done(function (jqXHR) {
+      console.log("delete?");
+    })
+    .fail(function (jqXHR) {
+      alert("error");
+    })
+    .always(function (jqXHR) {
+      $('#addModal').modal('toggle');
+    });
 });
