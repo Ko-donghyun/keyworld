@@ -19,6 +19,25 @@ router.get('/', function(req, res, next) {
   });
 });
 
+
+/** 
+  * To save the Keyword when it has any other previous relations 
+  */ 
+router.post('/', function(req, res, next) {
+  const keyword = req.body.keyword;
+  const newKeyword = req.body.newKeyword;
+
+  return keywordController.addKeyword(keyword, newKeyword).then((result) => {
+    return res.json({
+      success: 1,
+      result,
+    })
+  }).catch((err) => {
+    return next(err);
+  });
+});
+
+
 /** 
   * To find the Keyword when it has previous relations 
   */ 
@@ -35,5 +54,24 @@ router.get('/extension', function(req, res, next) {
     return next(err);
   });
  });
+
+
+/** 
+ * To save the Keyword when it has previous relations 
+ */
+router.post('/extension', function(req, res, next) {
+  const previousKeyword = req.body.previousKeyword;
+  const keyword = req.body.keyword;
+  const newKeyword = req.body.newKeyword;
+
+  return keywordController.addKeywordWithRelation(keyword, previousKeyword, newKeyword).then((result) => {
+    return res.json({
+      success: 1,
+      result,
+    })
+  }).catch((err) => {
+    return next(err);
+  });
+});
 
 module.exports = router;

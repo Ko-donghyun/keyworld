@@ -4,5 +4,8 @@ node_modules/
 # Secret information
 credentials.js
 
+# Debug log
+npm-debug.log
+
 ### WebStorm ###
 .idea/
