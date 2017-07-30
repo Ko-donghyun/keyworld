@@ -23,7 +23,7 @@
         background-color: white;
         border-radius:20px;
         width:100%;
-        height:600px;
+        height:550px;
       }
       div.position{
         float:right;
@@ -32,6 +32,9 @@
       }
       div.temp{
         margin-bottom:10px;
+      }
+      div span{
+          color: #333333;
       }
       div.site {
   display: table;
@@ -66,9 +69,9 @@
         <div class="cover-container">
 
             <div class="masthead clearfix">
-                <div class="inner row">
+                <div class="inner-container row">
                     <div class="col-md-2">
-                        <a href="#"><img src="/image/logo45.png" alt="LOGO" height="80" weight="60"></a>
+                        <a href="/"><img src="/image/logo45.png" alt="LOGO" height="70" weight="50"></a>
                     </div>
                     <div class="col-md-10 masthead-input-group">
                         <div class="input-group">
@@ -95,9 +98,7 @@
             </div>
             </div>
             <div class="mastfoot">
-
-                <img src="/image/logo45.png" alt="LOGO" height="100" weight="auto">
-
+                <img src="/image/logo45.png" alt="LOGO" height="70" weight="auto">
             </div>
         </div>
 
@@ -141,9 +142,14 @@
                 <h4 class="modal-title" id="myModalLabel">Delete Keyword</h4>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete </p>
-                <p id="askWord"/>
-                <p>?</p>
+                <p>
+                    <span>Are you sure you want to </span>
+                </p>
+                <p>
+                    <span>delete "</span>
+                    <span id="askWord"> </span>
+                    <span>" ? </span>
+                </p>
                 <div class="input-group" style="width: 100%">
                     <input type="text" class="form-control" id="forDelEmail" placeholder="Insert your email."
                            aria-describedby="basic-addon2">
