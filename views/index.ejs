@@ -17,14 +17,49 @@
 
     <!-- Custom styles for this template -->
     <link href="/stylesheets/cover.css" rel="stylesheet">
+    <style type = "text/css">
+      div.mytemp{
+        border:1px; border-color:#757170;border-style:solid;
+        background-color: white;
+        border-radius:20px;
+        width:100%;
+        height:600px;
+      }
+      div.position{
+        float:right;
+        margin-top: 10px;
+        margin-right: 10px;
+      }
+      div.temp{
+        margin-bottom:10px;
+      }
+      div.site {
+  display: table;
+  width: 100%;
+  height: 100%; /* For at least Firefox */
+  min-height: 100%;
+/*  -webkit-box-shadow: inset 0 0 100px rgba(90,120,175,.8);
+        box-shadow: inset 0 0 100px rgba(90,120,175,.8);*/
+
+}
+      body.back{
+
+          background: url(/image/simple.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+      }
+    </style>
 
     <!-- Load vis.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.20.1/vis.min.js"></script>
+
 </head>
 
-<body>
+<body class="back">
 
-<div class="site-wrapper">
+<div class="site">
 
     <div class="site-wrapper-inner">
 
@@ -33,15 +68,15 @@
             <div class="masthead clearfix">
                 <div class="inner row">
                     <div class="col-md-2">
-                        <h3 class="masthead-brand">Keyworld!!</h3>
+                        <a href="#"><img src="/image/logo45.png" alt="LOGO" height="80" weight="60"></a>
                     </div>
                     <div class="col-md-10 masthead-input-group">
                         <div class="input-group">
                             <input type="text" id="searchInput" class="form-control" placeholder="Search for...">
                             <span class="input-group-btn">
-                                <button class="btn btn-default" id="searchBtn" type="submit">Search</button>
-                                <button class="btn btn-default" type="button" data-toggle="modal"
-                                        data-target="#addModal">Add</button>
+                                <button class="btn btn-primary" id="searchBtn" type="submit">Search</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add</button>
+
                             </span>
                         </div>
                     </div>
@@ -50,7 +85,19 @@
             </div>
 
             <div class="inner cover">
-                <div id="mynetwork"></div>
+              <div class="mytemp">
+                <!--<div class="position">
+                  <button type="button" class="btn btn-primary btn-lg active" data-toggle="modal" data-target="#addModal">+</button>
+                </div>-->
+                <div id="mynetwork"> </div>
+
+
+            </div>
+            </div>
+            <div class="mastfoot">
+
+                <img src="/image/logo45.png" alt="LOGO" height="100" weight="auto">
+
             </div>
         </div>
 
