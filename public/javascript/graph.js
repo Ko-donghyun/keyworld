@@ -84,12 +84,10 @@ function setData(upKeyword, jsonData) {
 
     nodeData.push({ id: 0, label: upKeyword });
     for (var i = 0; i < jsonData.result.length; i++) {
-        if (preKeyword !== jsonData.result[i].label) {
-            nodeData.push({ id: (i + 1), label: jsonData.result[i].label });
-            edgeData.push({ from: 0, to: (i + 1) });
-        }
+        nodeData.push({ id: (i + 1), label: jsonData.result[i].label });
+        edgeData.push({ from: 0, to: (i + 1) });
     }
-    if (preKeyword !== upKeyword && preKeyword !== undefined) {
+    if (searchKeywords[0] !== upKeyword && searchKeywords[0] !== undefined) {
         nodeData.push({ id: jsonData.result.length + 1, label: preKeyword, color: '#9f9faa' });
         edgeData.push({ from: 0, to: jsonData.result.length + 1, arrows: 'from', color: '#9f9faa' });
     }
@@ -116,9 +114,18 @@ function bindNetwork() {
 }
 
 function expandEvent(params) { // Expand a node (with event handler)
-    if (params.nodes.length) { //Did the click occur on a node?
-        var selectedKeyword = params.nodes[0]; //The id of the node clicked
-        var label = nodes.get(selectedKeyword).label;
+    if (params.edges.length === 0) return;
+    var selectedKeyword = params.nodes[0]; //The id of the node clicked
+    var label = nodes.get(selectedKeyword).label;
+    console.log(params);
+    if (searchKeywords[0] !== undefined && searchKeywords[1] !== undefined && searchKeywords[0] !== label && searchKeywords[1] !== label) {
+        //구글로 이동
+        //https://www.google.com/search?q=apple+ipad+jobs&oq=apple+ipad+jobs
+        src = "https://www.google.com/search?q=" + searchKeywords[0] + "+" + searchKeywords[1] + "+" + label +
+            "&oq=" + searchKeywords[0] + "+" + searchKeywords[1] + "+" + label;
+        location.href = src;
+    } else if (params.nodes.length) { //Did the click occur on a node?
+
         if (preKeyword !== label) {
             search(label);
         }
