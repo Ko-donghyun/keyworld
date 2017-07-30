@@ -1,7 +1,7 @@
 // create an array with nodes
 var network;
 var nodes, edges;
-var serachKeywords = [];
+var searchKeywords = [];
 var preKeyword;
 
 //Global options
@@ -25,6 +25,8 @@ makeNetwork();
 
 $(document).ready(function () {
   $("#searchBtn").click(function () {
+    preKeyword = undefined;
+    keyword = undefined;
     console.log("search button cliked");
     var searchingWord = $("#searchInput").val();
     search(searchingWord);
@@ -32,9 +34,26 @@ $(document).ready(function () {
 })
 
 function search(keyword) {
+  console.log(preKeyword);
+  console.log(keyword);
+  if (keyword === searchKeywords[0]) {
+    searchKeywords[0] = undefined;
+    searchKeywords[1] = keyword;
+  } else if (preKeyword !== undefined) {
+    //$("#searchInput").val(preKeyword + ", " + keyword);
+    searchKeywords[0] = preKeyword;
+    searchKeywords[1] = keyword;
+  } else {
+    searchKeywords[1] = keyword;
+  }
 
+  console.log(searchKeywords);
   var jsonData;
-  var url = "http://localhost:3000/keyword?keyword=" + keyword;
+  if (searchKeywords[0] != undefined) {
+    url = "http://localhost:3000/keyword/extension?keyword=" + searchKeywords[1] + "&previousKeyword=" + searchKeywords[0];
+  } else {
+    url = "http://localhost:3000/keyword?keyword=" + searchKeywords[1];
+  }
 
   $.get(url, function (jqXHR) {
   }, 'json' /* xml, text, script, html */)
@@ -45,8 +64,8 @@ function search(keyword) {
     })
     .always(function (jqXHR) {
       //alert("finished");
-      console.log(jqXHR);
       jsonData = jqXHR;
+
       setData(keyword, jsonData);
       makeNetwork();
     });
@@ -104,12 +123,12 @@ function expandEvent(params) { // Expand a node (with event handler)
 }
 
 
-$("#addKeywordBtn").click(function() {
+$("#addKeywordBtn").click(function () {
   var addKeywordVal = $("#addKeywordVal").val();
   console.log(addKeywordVal);
   var url = "http://localhost:3000/keyword";
   var val = $("#addKeywordVal").val();
-  $.post(url, { keyword: preKeyword, newKeyword: val }, function (jqXHR) {
+  $.post(url, {keyword: preKeyword, newKeyword: val}, function (jqXHR) {
     //success
   }, 'json' /* xml, text, script, html */)
     .done(function (jqXHR) {
