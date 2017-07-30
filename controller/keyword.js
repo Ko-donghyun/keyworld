@@ -54,12 +54,15 @@ exports.addKeyword = function(keyword, newKeyword) {
       return Keyword.findOrCreate({where: {label: newKeyword}}).spread((newKeyword, created) => {
         resultNewKeyword = newKeyword;
 
-        return Line.bulkCreate([
-          { top: resultKeyword.id , middle: newKeyword.id },
-          { top: newKeyword.id , middle: resultKeyword.id },
-        ]).then((result) => {
-          resolve(result);
-        })
+        return Line.findOrCreate({where: {top: resultKeyword.id , middle: newKeyword.id}}).spread((newLine, created) => {
+          if (!created) {
+            return reject(new helper.makePredictableError(200, 401, 'Already Inserted that Keyword'))
+          }
+
+          return Line.create({ top: newKeyword.id , middle: resultKeyword.id }).then((result) => {
+            resolve('Successfully inserted!');
+          })
+        });
       })
     });
   });
