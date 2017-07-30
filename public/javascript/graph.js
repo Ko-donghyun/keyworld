@@ -37,6 +37,7 @@ $(document).ready(function () {
       e.preventDefault();
       var searchingWord = $("#searchInput").val();
       $("#searchInput").blur();
+      reset();
       search(searchingWord);
     }
   });
