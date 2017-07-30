@@ -13,7 +13,7 @@ const Line = sequelize.define('line', {
   },
   bottom: {
     type: Sequelize.INTEGER,
-    allowNull: false,
+    allowNull: true,
   }
 }, {
   timestamps: true,
