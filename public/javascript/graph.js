@@ -13,9 +13,12 @@ var options = {
         scaling: {
             min: 10,
             max: 25,
-            label: { min: 14, max: 30, drawThreshold: 9, maxVisible: 20 }
+            label: { min: 15, max: 20, drawThreshold: 9, maxVisible: 20 }
         },
-        font: { size: 25, face: 'Helvetica Neue, Helvetica, Arial' }
+        font: { size: 30, face: 'Helvetica Neue, Helvetica, Arial' }
+    },
+    edges: {
+        length: 240,
     },
     interaction: {
         hover: true,
@@ -135,9 +138,9 @@ function addDataNode(upKeyword, jsonData) {
     var nodeData = [];
     var edgeData = [];
 
-    nodeData.push({ id: 0, label: upKeyword, color: { background: '#ffffff', border: '#e68307', hover: { background: '#F59304', border: '#e68307' }, highlight: { background: '#F59304', border: '#e68307' } } });
+    nodeData.push({ id: 0, label: upKeyword, font: { size: 40 }, color: { background: '#ffffff', border: '#e68307', hover: { background: '#F59304', border: '#e68307' }, highlight: { background: '#F59304', border: '#e68307' } } });
     for (var i = 0, ii = jsonData.result.length; i < ii; i++) {
-        nodeData.push({ id: (i + 1), label: jsonData.result[i].label, font: { size: 15 }, color: { background: '#ffffff', border: '#6d9b77', hover: { background: '#85BD91', border: '#6d9b77' }, highlight: { background: '#85BD91', border: '#6d9b77' } } });
+        nodeData.push({ id: (i + 1), label: jsonData.result[i].label, font: { size: 20 }, color: { background: '#ffffff', border: '#6d9b77', hover: { background: '#85BD91', border: '#6d9b77' }, highlight: { background: '#85BD91', border: '#6d9b77' } } });
         edgeData.push({ from: 0, to: (i + 1), color: '#6d9b77' });
     }
     if (searchKeywords[0] !== upKeyword && searchKeywords[0] !== undefined) {
@@ -235,7 +238,7 @@ $("#addKeywordBtn").click(function() {
             var node = {
                 id: nodes.length + 1,
                 label: val,
-                font: { size: 15 },
+                font: { size: 20 },
                 color: {
                     background: '#ffffff',
                     border: '#6d9b77',
