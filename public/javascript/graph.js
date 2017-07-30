@@ -8,13 +8,13 @@ var currentParams = null;
 //Global options
 var options = {
   nodes: {
-    shape: 'ellipse',
+    shape: 'circle',
     scaling: {
       min: 10,
       max: 25,
       label: {min: 14, max: 30, drawThreshold: 9, maxVisible: 20}
     },
-    font: {size: 17, face: 'Helvetica Neue, Helvetica, Arial'}
+    font: {size: 25, face: 'Helvetica Neue, Helvetica, Arial'}
   },
   interaction: {
     hover: true,
@@ -94,11 +94,27 @@ function setData(upKeyword, jsonData) {
 
   var nodeData = [];
   var edgeData = [];
-
+  var nodeSize = 0;
+  var longest = 0;
+  var needSpace = 0;
+  var labelTemp = '';
   nodeData.push({id: 0, label: upKeyword});
-  for (var i = 0; i < jsonData.result.length; i++) {
-    nodeData.push({id: (i + 1), label: jsonData.result[i].label});
+  for (var i = 0, ii = jsonData.result.length; i < ii; i++) {
+    longest = longest < jsonData.result[i].label.length ? jsonData.result[i].label.length : longest;
+  }
+  nodeSize = 25 - longest;
+  for (var i = 0, ii = jsonData.result.length; i < ii; i++) {
+    labelTemp = jsonData.result[i].label;
+    needSpace = Math.ceil((longest - labelTemp.length)/2);
+    for (var j = 0; j < needSpace; j++){
+      labelTemp = ' ' + labelTemp + ' ';
+    }
+    if (needSpace > 3) {
+      labelTemp = '  ' + labelTemp + ' ';
+    }
+    nodeData.push({id: (i + 1), label: labelTemp, font:{size: nodeSize}});
     edgeData.push({from: 0, to: (i + 1)});
+    needSpace = 0;
   }
   if (searchKeywords[0] !== upKeyword && searchKeywords[0] !== undefined) {
     nodeData.push({id: jsonData.result.length + 1, label: preKeyword, color: '#9f9faa'});
@@ -144,7 +160,7 @@ function expandEvent(params) { // Expand a node (with event handler)
   if (params.edges.length === 0) return;
   var selectedKeyword = params.nodes[0]; //The id of the node clicked
   var label = nodes.get(selectedKeyword).label;
-  console.log(params);
+  label = label.trim();
   if (searchKeywords[0] !== undefined && searchKeywords[1] !== undefined && searchKeywords[0] !== label && searchKeywords[1] !== label) {
     //구글로 이동
     //https://www.google.com/search?q=apple+ipad+jobs&oq=apple+ipad+jobs
