@@ -36,9 +36,10 @@ $(document).ready(function () {
   $('#searchInput').keypress(function(e) {
     if (e.which == '13') {
       e.preventDefault();
+      reset();
+
       var searchingWord = $("#searchInput").val();
       $("#searchInput").blur();
-      reset();
       search(searchingWord);
     }
   });
@@ -136,26 +137,10 @@ function addDataNode(upKeyword, jsonData) {
     var nodeData = [];
     var edgeData = [];
 
-  var longest = 0;
-  var needSpace = 0;
-  var labelTemp = '';
   nodeData.push({id: 0, label: upKeyword, color: {background:'#ffffff', border:'#e68307', hover:{background:'#F59304',border:'#e68307'}, highlight:{background:'#F59304',border:'#e68307'}}});
   for (var i = 0, ii = jsonData.result.length; i < ii; i++) {
-    longest = longest < jsonData.result[i].label.length ? jsonData.result[i].label.length : longest;
-  }
-  nodeSize = 25 - longest;
-  for (var i = 0, ii = jsonData.result.length; i < ii; i++) {
-    labelTemp = jsonData.result[i].label;
-    needSpace = Math.ceil((longest - labelTemp.length)/2);
-    for (var j = 0; j < needSpace; j++){
-      labelTemp = ' ' + labelTemp + ' ';
-    }
-    if (needSpace > 3) {
-      labelTemp = '  ' + labelTemp + ' ';
-    }
-    nodeData.push({id: (i + 1), label: labelTemp, font:{size: nodeSize}, color: {background:'#ffffff', border:'#6d9b77', hover:{background:'#85BD91',border:'#6d9b77'}, highlight:{background:'#85BD91',border:'#6d9b77'}}});
+    nodeData.push({id: (i + 1), label: jsonData.result[i].label, font:{size: 15}, color: {background:'#ffffff', border:'#6d9b77', hover:{background:'#85BD91',border:'#6d9b77'}, highlight:{background:'#85BD91',border:'#6d9b77'}}});
     edgeData.push({from: 0, to: (i + 1), color: '#6d9b77' });
-    needSpace = 0;
   }
   if (searchKeywords[0] !== upKeyword && searchKeywords[0] !== undefined) {
     nodeData.push({id: jsonData.result.length + 1, label: preKeyword, color: '#9f9faa'});
