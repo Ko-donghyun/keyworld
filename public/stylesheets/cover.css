@@ -67,7 +67,10 @@ body {
 /* Padding for spacing */
 
 .inner {
-    padding: 30px
+    padding: 10px
+}
+.inner-container {
+    padding: 10px 20px 10px 20px
 }
 
 
@@ -145,6 +148,9 @@ body {
     font-weight: bold;
 }
 
+#myModalLabel {
+  color: #333333;
+}
 
 /*
  * Footer

@@ -4,6 +4,7 @@ var nodes, edges;
 var searchKeywords = [];
 var preKeyword;
 var currentParams = null;
+var nodeSize = 0;
 
 //Global options
 var options = {
@@ -96,20 +97,21 @@ function addSearchNode(upKeyword, jsonData) {
     var nodeData = [];
     var edgeData = [];
 
-    nodeData.push({ id: 0, label: upKeyword, color: '#D2691E' });
-    for (var i = 0; i < jsonData.result.length; i++) {
+  nodeData.push({id: 0, label: upKeyword, color: {background:'#ffffff', border:'#e68307', hover:{background:'#F59304',border:'#e68307'}, highlight:{background:'#F59304',border:'#e68307'}}});
+
+  for (var i = 0; i < jsonData.result.length; i++) {
         nodeData.push({
             id: (i + 1),
             shape: 'icon',
             label: jsonData.result[i].label,
             font: {
-                color: '#fff'
+                color: '#000000'
             },
             icon: {
                 face: 'Ionicons',
                 code: '\uf4a5',
                 size: 50,
-                color: '#fff'
+                color: '#000000'
             }
         });
         edgeData.push({
@@ -134,11 +136,10 @@ function addDataNode(upKeyword, jsonData) {
     var nodeData = [];
     var edgeData = [];
 
-  var nodeSize = 0;
   var longest = 0;
   var needSpace = 0;
   var labelTemp = '';
-  nodeData.push({id: 0, label: upKeyword});
+  nodeData.push({id: 0, label: upKeyword, color: {background:'#ffffff', border:'#e68307', hover:{background:'#F59304',border:'#e68307'}, highlight:{background:'#F59304',border:'#e68307'}}});
   for (var i = 0, ii = jsonData.result.length; i < ii; i++) {
     longest = longest < jsonData.result[i].label.length ? jsonData.result[i].label.length : longest;
   }
@@ -152,8 +153,8 @@ function addDataNode(upKeyword, jsonData) {
     if (needSpace > 3) {
       labelTemp = '  ' + labelTemp + ' ';
     }
-    nodeData.push({id: (i + 1), label: labelTemp, font:{size: nodeSize}});
-    edgeData.push({from: 0, to: (i + 1)});
+    nodeData.push({id: (i + 1), label: labelTemp, font:{size: nodeSize}, color: {background:'#ffffff', border:'#6d9b77', hover:{background:'#85BD91',border:'#6d9b77'}, highlight:{background:'#85BD91',border:'#6d9b77'}}});
+    edgeData.push({from: 0, to: (i + 1), color: '#6d9b77' });
     needSpace = 0;
   }
   if (searchKeywords[0] !== upKeyword && searchKeywords[0] !== undefined) {
@@ -246,8 +247,8 @@ $("#addKeywordBtn").click(function () {
     //success
   }, 'json' /* xml, text, script, html */)
     .done(function (jqXHR) {
-      var node = {id: nodes.length + 1, label: val};
-      var edge = {from: 0, to: nodes.length + 1};
+      var node = {id: nodes.length + 1, label: val, font:{size: nodeSize}, color: {background:'#ffffff', border:'#6d9b77', hover:{background:'#85BD91',border:'#6d9b77'}, highlight:{background:'#85BD91',border:'#6d9b77'}}};
+      var edge = {from: 0, to: nodes.length + 1, color: '#6d9b77' };
       nodes.add(node);
       edges.add(edge);
     })
