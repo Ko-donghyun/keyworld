@@ -2,7 +2,6 @@
 var network;
 var nodes, edges;
 
-
 //Global options
 var options = {
     nodes: {
@@ -26,27 +25,41 @@ $(document).ready(function() {
     $("#searchBtn").click(function() {
         console.log("search button cliked");
         var searchingWord = $("#searchInput").val();
-        console.log(searchingWord);
         search(searchingWord);
     });
 })
 
 function search(keyword) {
-    setData(keyword);
-    makeNetwork();
+
+    var jsonData;
+    var url = "http://localhost:3000/keyword?keyword=" + keyword;
+
+    $.get(url, function(jqXHR) {}, 'json' /* xml, text, script, html */ )
+        .done(function(jqXHR) {})
+        .fail(function(jqXHR) {
+            alert("error");
+        })
+        .always(function(jqXHR) {
+            //alert("finished");
+            console.log(jqXHR);
+            jsonData = jqXHR;
+            setData(keyword, jsonData);
+            makeNetwork();
+        });
+
+
 }
 
-function setData(upKeyword) {
-    var jsonData = '{"success":"1","result":[{"label":"Machine Learning"}, {"label": "BigData"}, {"label": "Virtual Reality"}, {"label": "Augmented Reality"} ]}';
-
-    var parsedData = JSON.parse(jsonData);
+function setData(upKeyword, jsonData) {
+    console.log(jsonData);
+    //var parsedData = JSON.parse(jsonData);
 
     var nodeData = [];
     var edgeData = [];
 
     nodeData.push({ id: 0, label: upKeyword }, );
-    for (var i = 0; i < parsedData.result.length; i++) {
-        nodeData.push({ id: (i + 1), label: parsedData.result[i].label });
+    for (var i = 0; i < jsonData.result.length; i++) {
+        nodeData.push({ id: (i + 1), label: jsonData.result[i].label });
         edgeData.push({ from: 0, to: (i + 1) });
     }
 
