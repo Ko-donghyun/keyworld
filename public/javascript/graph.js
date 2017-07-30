@@ -43,15 +43,12 @@ $(document).ready(function () {
   });
   $("#searchBtn").click(function () {
     reset();
-    console.log("search button cliked");
     var searchingWord = $("#searchInput").val();
     search(searchingWord);
   });
 })
 
 function search(keyword) {
-  console.log(preKeyword);
-  console.log(keyword);
   if (keyword === searchKeywords[0]) {
     searchKeywords[0] = undefined;
     searchKeywords[1] = keyword;
@@ -64,12 +61,11 @@ function search(keyword) {
     searchKeywords[1] = keyword;
     $("#searchInput").val(keyword);
   }
-  console.log(searchKeywords);
   var jsonData;
   if (searchKeywords[0] != undefined) {
-    url = "http://localhost:3000/keyword/extension?keyword=" + searchKeywords[1] + "&previousKeyword=" + searchKeywords[0];
+    url = "/keyword/extension?keyword=" + searchKeywords[1] + "&previousKeyword=" + searchKeywords[0];
   } else {
-    url = "http://localhost:3000/keyword?keyword=" + searchKeywords[1];
+    url = "/keyword?keyword=" + searchKeywords[1];
   }
 
   $.get(url, function (jqXHR) {
@@ -202,7 +198,9 @@ function bindNetwork() {
 
 function expandEvent(params) { // Expand a node (with event handler)
   if (params.edges.length === 0) return;
+
   var selectedKeyword = params.nodes[0]; //The id of the node clicked
+  if (nodes.get(selectedKeyword) === null) return;
   var label = nodes.get(selectedKeyword).label;
   label = label.trim();
   if (searchKeywords[0] !== undefined && searchKeywords[1] !== undefined && searchKeywords[0] !== label && searchKeywords[1] !== label) {
@@ -235,11 +233,10 @@ function rightMouseClickEvent(params) {
 }
 
 $("#addKeywordBtn").click(function () {
-  var url = "http://localhost:3000/keyword";
+  var url = "/keyword";
   var val = $("#addKeywordVal").val();
   var obj = {keyword: preKeyword, newKeyword: val};
 
-  console.log(searchKeywords[0]);
 
   if (searchKeywords[0] !== undefined) {
     url += '/extension';
@@ -263,7 +260,7 @@ $("#addKeywordBtn").click(function () {
 });
 
 $("#delKeywordBtn").click(function() {
-  var url = "http://localhost:3000/keyword/report";
+  var url = "/keyword/report";
   var val = $("#askWord").text();
   var email = $("#forDelEmail").val();
   var obj = {ancestorKeyword: searchKeywords[0], parentKeyword: preKeyword, keyword: val, email: email};
@@ -272,18 +269,16 @@ $("#delKeywordBtn").click(function() {
     //success
   }, 'json' /* xml, text, script, html */)
     .done(function (jqXHR) {
-      console.log("delete?");
     })
     .fail(function (jqXHR) {
       alert("error");
     })
     .always(function (jqXHR) {
-      $('#addModal').modal('toggle');
+      $('#delModal').modal('toggle');
     });
 });
 
 $('.modal').on('hidden.bs.modal', function (e) {
-  console.log('modal close');
   $("#forDelEmail").val("");
   $("#addKeywordVal").val("");
 });
