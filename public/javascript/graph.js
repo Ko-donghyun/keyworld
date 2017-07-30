@@ -31,6 +31,15 @@ function reset() {
 }
 
 $(document).ready(function () {
+
+  $('#searchInput').keypress(function(e) {
+    if (e.which == '13') {
+      e.preventDefault();
+      var searchingWord = $("#searchInput").val();
+      $("#searchInput").blur();
+      search(searchingWord);
+    }
+  });
   $("#searchBtn").click(function () {
     reset();
     console.log("search button cliked");
@@ -210,4 +219,10 @@ $("#delKeywordBtn").click(function() {
     .always(function (jqXHR) {
       $('#addModal').modal('toggle');
     });
+});
+
+$('.modal').on('hidden.bs.modal', function (e) {
+  console.log('modal close');
+  $("#forDelEmail").val("");
+  $("#addKeywordVal").val("");
 });
