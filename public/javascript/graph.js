@@ -86,14 +86,58 @@ function search(keyword) {
       setData(keyword, jsonData);
       makeNetwork();
     });
-
-
 }
 
 function setData(upKeyword, jsonData) {
+    if (searchKeywords[0] !== undefined) {
+        addSearchNode(upKeyword, jsonData);
+    } else {
+        addDataNode(upKeyword, jsonData);
+    }
+}
 
-  var nodeData = [];
-  var edgeData = [];
+function addSearchNode(upKeyword, jsonData) {
+    var nodeData = [];
+    var edgeData = [];
+
+    nodeData.push({ id: 0, label: upKeyword, color: '#D2691E' });
+    for (var i = 0; i < jsonData.result.length; i++) {
+        nodeData.push({
+            id: (i + 1),
+            shape: 'icon',
+            label: jsonData.result[i].label,
+            font: {
+                color: '#fff'
+            },
+            icon: {
+                face: 'Ionicons',
+                code: '\uf4a5',
+                size: 50,
+                color: '#fff'
+            }
+        });
+        edgeData.push({
+            from: 0,
+            to: (i + 1),
+            size: 30,
+            scaling: { min: 5 },
+        });
+    }
+    if (searchKeywords[0] !== upKeyword && searchKeywords[0] !== undefined) {
+        nodeData.push({ id: jsonData.result.length + 1, label: preKeyword, color: '#9f9faa' });
+        edgeData.push({ from: 0, to: jsonData.result.length + 1, arrows: 'from', color: '#9f9faa' });
+    }
+    // create nodes
+    nodes = new vis.DataSet(nodeData);
+    // create an array with edges
+    edges = new vis.DataSet(edgeData);
+    preKeyword = upKeyword;
+}
+
+function addDataNode(upKeyword, jsonData) {
+    var nodeData = [];
+    var edgeData = [];
+
   var nodeSize = 0;
   var longest = 0;
   var needSpace = 0;
@@ -128,26 +172,26 @@ function setData(upKeyword, jsonData) {
 }
 
 function makeNetwork() {
-  // create a network
-  var container = document.getElementById('mynetwork');
-  var data = {
-    nodes: nodes,
-    edges: edges
-  };
-  network = new vis.Network(container, data, options);
-  bindNetwork();
+    // create a network
+    var container = document.getElementById('mynetwork');
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
+    network = new vis.Network(container, data, options);
+    bindNetwork();
 }
 
-$("#mynetwork").contextmenu(function (e) {
-  //Do something
-  e.preventDefault();
-  e.stopPropagation();
+$("#mynetwork").contextmenu(function(e) {
+    //Do something
+    e.preventDefault();
+    e.stopPropagation();
 });
 
 
 function bindNetwork() {
   network.on("click", expandEvent);
-  network.on("oncontext", doubleClickEvent);
+  network.on("oncontext", rightMouseClickEvent);
   network.on("hoverNode", function (params) {
     currentParams = params;
   });
@@ -175,7 +219,7 @@ function expandEvent(params) { // Expand a node (with event handler)
   }
 }
 
-function doubleClickEvent(params) {
+function rightMouseClickEvent(params) {
   if (currentParams === null) return;
   var tempNodes = nodes.get();
   for(var i = 0, ii = nodes.length; i < ii; i ++) {
