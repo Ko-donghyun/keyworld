@@ -103,3 +103,48 @@ exports.extensionSearch = function(keyword, previousKeyword) {
     });
   });
 };
+
+
+/**
+ * To save the Keyword when it has any other previous relations 
+ *
+ * @param {String} keyword
+ * @param {String} previousKeyword
+ * @param {String} newKeyword
+ * @returns {Object}
+ */
+exports.addKeywordWithRelation = function(keyword, previousKeyword, newKeyword) {
+  let resultKeyword;
+  let resultPreviousKeyword;
+  let resultNewKeyword;
+
+  return new Promise((resolve, reject) => {
+    return Keyword.findOne({
+      where: {label: previousKeyword}
+    }).then((previousKeyword) => {
+      resultPreviousKeyword = previousKeyword;
+
+      if (!previousKeyword) {
+        return reject(new helper.makePredictableError(200, 404, 'Can\'t not find that previousKeyword'))
+      }
+
+      return Keyword.findOne({
+        where: {label: keyword}
+      }).then((keyword) => {
+        resultKeyword = keyword;
+
+        if (!keyword) {
+          return reject(new helper.makePredictableError(200, 404, 'Can\'t not find that Keyword'))
+        }
+
+        return Keyword.findOrCreate({where: {label: newKeyword}}).spread((newKeyword, created) => {
+          resultNewKeyword = newKeyword;
+
+          return Line.create({ top: resultPreviousKeyword.id, middle: resultKeyword.id, bottom: newKeyword.id }).then((result) => {
+            resolve(result);
+          })
+        })
+      });
+    });
+  });
+};
