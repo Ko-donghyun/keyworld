@@ -1,6 +1,7 @@
 // create an array with nodes
 var network;
 var nodes, edges;
+var serachKeywords = [];
 
 //Global options
 var options = {
@@ -8,7 +9,7 @@ var options = {
         shape: 'ellipse',
         scaling: {
             min: 10,
-            max: 20,
+            max: 25,
             label: { min: 14, max: 30, drawThreshold: 9, maxVisible: 20 }
         },
         font: { size: 17, face: 'Helvetica Neue, Helvetica, Arial' }
@@ -52,7 +53,6 @@ function search(keyword) {
 
 function setData(upKeyword, jsonData) {
     console.log(jsonData);
-    //var parsedData = JSON.parse(jsonData);
 
     var nodeData = [];
     var edgeData = [];
@@ -62,11 +62,6 @@ function setData(upKeyword, jsonData) {
         nodeData.push({ id: (i + 1), label: jsonData.result[i].label });
         edgeData.push({ from: 0, to: (i + 1) });
     }
-
-    console.log(nodeData);
-    console.log(edgeData);
-
-
     // create nodes
     nodes = new vis.DataSet(nodeData);
     // create an array with edges
@@ -92,7 +87,6 @@ function expandEvent(params) { // Expand a node (with event handler)
     if (params.nodes.length) { //Did the click occur on a node?
         var selectedKeyword = params.nodes[0]; //The id of the node clicked
         var label = nodes.get(selectedKeyword).label
-        console.log(label);
         search(label);
     }
 }
