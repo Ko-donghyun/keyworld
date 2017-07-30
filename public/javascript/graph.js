@@ -102,3 +102,22 @@ function expandEvent(params) { // Expand a node (with event handler)
     }
   }
 }
+
+
+$("#addKeywordBtn").click(function() {
+  var addKeywordVal = $("#addKeywordVal").val();
+  console.log(addKeywordVal);
+  var url = "http://localhost:3000/keyword";
+  var val = $("#addKeywordVal").val();
+  $.post(url, { keyword: preKeyword, newKeyword: val }, function (jqXHR) {
+    //success
+  }, 'json' /* xml, text, script, html */)
+    .done(function (jqXHR) {
+    })
+    .fail(function (jqXHR) {
+      alert("error");
+    })
+    .always(function (jqXHR) {
+      $('#myModal').modal('toggle');
+    });
+})

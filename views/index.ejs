@@ -39,6 +39,7 @@
                                 <input type="text" id="searchInput" class="form-control" placeholder="Search for...">
                                 <span class="input-group-btn">
                     <button class="btn btn-default" id="searchBtn" type="button">Search</button>
+                    <button class="btn btn-default" type="button" data-toggle="modal" data-target="#myModal">Add</button>
                   </span>
                             </div>
                         </div>
@@ -46,19 +47,35 @@
                     </div>
                 </div>
 
-                <div class="inner cover" id="mynetwork">
+                <div class="inner cover">
+                    <div id="mynetwork"></div>
                 </div>
-
-                <div class="mastfoot">
-                    <div class="inner">
-                        <p>Hello this is just mookup</p>
-                    </div>
-                </div>
-
             </div>
 
         </div>
 
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Add Keyword</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group" style="width: 100%">
+                        <input type="text" class="form-control" id="addKeywordVal" placeholder="Add new keyword" aria-describedby="basic-addon2">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addKeywordBtn" >Add</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap core JavaScript
@@ -71,8 +88,6 @@
 
     <script type="text/javascript" src="/javascript/mookup.js"></script>
     <script type="text/javascript" src="/javascript/graph.js"></script>
-
-
 
     <script>
         // Run events that need to happen on initialization.
